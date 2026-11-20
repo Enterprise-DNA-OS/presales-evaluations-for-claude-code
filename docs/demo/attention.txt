@@ -1,0 +1,4 @@
+  code      account           engineer     due_date    required_unproven  blockers  reason      
+  --------  ----------------  -----------  ----------  -----------------  --------  ------------
+  DEMO-101  Harbour Software  Alex Morgan  2026-11-17  1                  1         overdue     
+  DEMO-102  Harbour Systems   Jamie Chen   2026-11-28  1                  1         review stale

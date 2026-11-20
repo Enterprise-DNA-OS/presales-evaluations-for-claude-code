@@ -1,0 +1,6 @@
+  engineer     kind       minutes  entries
+  -----------  ---------  -------  -------
+  Alex Morgan  demo       75       1      
+  Alex Morgan  poc        120      1      
+  Alex Morgan  review     60       1      
+  Jamie Chen   discovery  90       1      

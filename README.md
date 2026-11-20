@@ -1,115 +1,117 @@
-<h1 align="center">Presales Evaluations for Claude Code</h1>
+# Presales Evaluations for Claude Code
 
-<p align="center">
-  <strong>The open-source presales evaluation desk that is just a database and Claude Code.</strong>
-</p>
+A technical win needs evidence. Keep evaluations, acceptance criteria, product gaps, consultant effort and decision history in a database you own.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+## Three ways to use it
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Elvance data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=elvance">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/elvance?utm_source=github&utm_medium=readme&utm_campaign=elvance">How it works</a></td>
-  </tr>
-</table>
-
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-elvance">Instead of Elvance</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Presales Evaluations for Claude Code does the job you pay Elvance for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Elvance dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Elvance per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=elvance).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+- **Do it yourself:** free MIT source. Operate your own evidence desk with Claude Code, Codex, OpenCode or Cursor.
+- **We customise it:** Enterprise DNA maps your Elvance records and builds your rules, reports, connections and web front end where needed. One setup fee, then a retainer.
+- **We run it for you:** installed, connected and maintained through **Omni by Enterprise DNA**. One setup fee, then a retainer. [Talk to Sam](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=elvance&utm_medium=readme).
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or newer. Windows and Linux use the same scripts. Embedded PGlite needs no server. Set DATABASE_URL to use PostgreSQL.
 
 ```bash
-git clone https://github.com/Enterprise-DNA-OS/presales-evaluations-for-claude-code.git
-cd presales-evaluations-for-claude-code
 npm install
 npm run demo
+npm run presales -- attention
+npm run presales -- deal-review
+npm run presales -- weekly-review
+npm run view
+npm run docs
+npm test
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The idempotent seed creates three fictional evaluations, deliberately stale reviews, failed proof and overdue gaps. It leaves an existing evaluation database alone. Run it only in an empty disposable database.
 
-### Use it with your own Postgres or Supabase
+## The presales week
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+/deal-review prepares the technical forecast discussion. /proof-plan checks acceptance evidence. /product-gaps gives the product lead named blockers. /effort-review shows recorded consultant time. /weekly-review combines the first review with attention, effort and record checks. These are records and transparent rules, not predicted win probabilities.
 
-## The commands
+Record an evaluation, add agreed mandatory criteria, record actual results and gaps, log effort and review the records. /decide refuses a technical win until mandatory criteria exist and all pass, blocking gaps are resolved and the privacy review is current. A technical win is an internal judgement, not a customer signature. Reopen before changing evidence on a decided evaluation.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+## Bring your Elvance history
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
-
-## Instead of Elvance
-
-<!-- TODO(author): how to bring data across from Elvance; link docs/replace-elvance.md -->
-
-## Architecture
-
-```
-presales-evaluations-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
+```bash
+npm run presales -- import elvance --file=fixtures/elvance.csv --map=fixtures/elvance-map.json --source=synthetic-demo --exported-at=2026-11-19T12:00:00Z --actor="Operator name" --dry-run
 ```
 
-## Built for coding agents
+The fixture is a synthetic mapping example, not a vendor specimen. Elvance holds records inside Salesforce. Export a details-only CSV report, inspect its real headers, map selected evaluation columns and preview. Repeat without --dry-run after reconciling. Original CSV and every column are preserved. Reimporting an unchanged row is a no-op. Changed source rows are rejected for explicit reconciliation, never allowed to overwrite local evidence. Source technical stages do not approve a win here. [Switch guide](docs/replace-elvance.md).
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Ten questions you can answer from your own records
 
-## Contributing
+1. Which evaluations need a decision before the next review? `attention`
+2. Which required claims still lack passing evidence? `proof-plan`
+3. Which product gaps block a technical win? `product-gaps`
+4. Where did consultants spend their time in the last seven days? `effort-review`
+5. Which evaluations are overdue and still blocked? `attention`
+6. Who recorded the decision and why? `history`
+7. Which source stages have not been verified here? `detail`
+8. Which records need a retention review? `compliance`
+9. How much effort has gone into an evaluation with missing proof? `deal-review`
+10. When were our source exports produced? `source-freshness`
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+These are implemented questions, not a claim that Elvance cannot answer them. Elvance itself documents dashboards and conversational access. The difference here is control over the records, evidence rules and reporting without a subscription to this code.
 
-## Want it installed and run for you?
+## Commands
 
-Enterprise DNA installs Presales Evaluations for Claude Code for your business, migrates your Elvance data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+- /revenue-review: Review entered opportunity values by currency. Unproven value is not a forecast or expected loss. Unknown values stay unknown.
+- /win-review: Count recorded technical outcomes by consultant. These are not commercial wins or predicted probabilities.
+- /evaluations: List the evaluations and their owners.
+- /deal-review: Review required evidence, blockers and effort together.
+- /attention: Show overdue evaluations, stale reviews and missing proof.
+- /proof-plan: Read the agreed criteria, expected results and recorded evidence.
+- /product-gaps: Review open product gaps with owners and dates.
+- /effort-review: Review effort recorded over the last seven calendar days. This is not scheduled capacity.
+- /compliance: Read evidence and privacy review flags. Explain that these checks do not certify compliance.
+- /source-freshness: Show the dates of imported source exports. No rows means no source evidence.
+- /imports: List imported batches and who recorded them.
+- /audit: Read the full change history.
+- /help: List supported CLI commands.
+- /weekly-review: Read attention, deal-review, effort-review, compliance and source-freshness. Write a Monday review with decisions and named owners from these records.
+- /detail: Read the full evaluation before advising or changing it.
+- /history: Read every recorded change and the actor label.
+- /add: Confirm the supplied account, scope, owner and date. No invented records.
+- /assign: Assign the active evaluation to the named consultant.
+- /plan: Record the date agreed by the operator.
+- /review: Use actual review dates and evidence. Retention dates are operator policy, not a statutory fixed period.
+- /add-criterion: Agree an observable acceptance criterion. Never mark it passed while adding it.
+- /record-result: Read the actual evidence first. Use passed or failed and the actual observation date.
+- /add-gap: Record the product gap without promising a release date.
+- /resolve-gap: Inspect the resolution evidence. This does not automatically pass a criterion.
+- /log: Log actual work using discovery, demo, poc, review or handover. Never forecast time as actual.
+- /decide: Use technical-win, technical-loss or paused. A win requires current review, required criteria all passed and no open blocking gaps. Never bypass a failed gate.
+- /reopen: Preserve the previous decision in history, then reopen before changing evidence.
+- /draft-handover: Create an internal draft in drafts. Review evidence and personal information before anyone shares it. Never send.
+- /import: Read docs/replace-elvance.md. Inspect real headers, map and preview. Remove --dry-run only for an authorised import. Source stages never count as verified technical decisions.
+- /export: Write a complete private JSON snapshot. It includes source CSV and audit records. Do not commit or publish it.
+- /customise: See the matching recipe.
+- /new-view: See the matching recipe.
+- /docs: See the matching recipe.
+- /view: See the matching recipe.
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=elvance)
-- Read more: [enterprisedna.co/omni/instead-of/elvance](https://enterprisedna.co/omni/instead-of/elvance?utm_source=github&utm_medium=readme&utm_campaign=elvance)
+All CLI commands accept --json. Writes require --actor. Exact code or case-insensitive name wins before partial matching. Ambiguous matches list candidates and exit 1. Use help for the list and .claude/commands for complete examples.
 
-## License
+## Paperwork and views
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+Set business name, colours and logo in brand.json. npm run docs produces an evaluation brief and technical decision record for each evaluation. npm run view produces the weekly review as read-only HTML. Print from a browser if a PDF is needed. /draft-handover writes a private internal draft, never sends it.
+
+## Your first hour: ten things to ask for
+
+1. Put our name on the evaluation brief.
+2. Show the overdue proof of concept.
+3. Explain why its technical win is blocked.
+4. Find the product gap owner.
+5. Compare consultant effort over the last week.
+6. Preview an exported Elvance report.
+7. Record a real acceptance criterion.
+8. Review the record retention dates.
+9. Add our deployment region with /customise.
+10. Add a product-specific evidence view with /new-view.
+
+## Scope
+
+The free base is a manually operated presales evidence desk. It does not predict wins, record calls, synchronise calendars, host buyer access, authenticate users or run a product demonstration environment. Enterprise DNA scopes those connections and interfaces in the customised version. Salesforce remains in place if you still use it for CRM. [Why no front end](docs/why-no-front-end.md).
+
+[Compliance](docs/compliance.md), [operation](docs/operations.md), [research](docs/research.md). MIT. Not affiliated with Elvance, Salesforce or Anthropic. Hosting, agent subscriptions and operation remain your costs.

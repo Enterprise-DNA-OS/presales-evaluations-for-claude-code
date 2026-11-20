@@ -1,0 +1,9 @@
+{
+ "source_id":"Record ID",
+ "code":"Evaluation Code",
+ "account":"Account Name",
+ "name":"Opportunity Name",
+ "engineer":"Assigned Consultant",
+ "due_date":"Target Date",
+ "source_stage":"Technical Stage"
+}

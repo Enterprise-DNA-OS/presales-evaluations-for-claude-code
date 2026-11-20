@@ -1,11 +1,41 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "evaluation-brief",
+    "title": "Evaluation brief",
+    "for_each": "SELECT id,code FROM evaluations ORDER BY code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Account and owner",
+        "sql": "SELECT code,account,name,engineer,due_date,status,purpose FROM evaluations WHERE id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Agreed acceptance criteria",
+        "sql": "SELECT name,mandatory,expected,status,evidence,reviewer,reviewed_on FROM criteria WHERE evaluation_id=$1 ORDER BY name"
+      },
+      {
+        "title": "Product gaps",
+        "sql": "SELECT feature,owner,due_date,blocking,status,evidence,resolution FROM gaps WHERE evaluation_id=$1 ORDER BY due_date"
+      }
+    ]
+  },
+  {
+    "name": "decision-record",
+    "title": "Technical decision record",
+    "for_each": "SELECT id,code FROM evaluations ORDER BY code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Decision",
+        "note": "A technical win records an internal decision. It is not a customer acceptance signature or a revenue forecast.",
+        "sql": "SELECT code,status,decision_note,decision_by,decision_at FROM evaluations WHERE id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Evidence history",
+        "sql": "SELECT action,actor,detail,created_at FROM audit WHERE evaluation_id=$1 ORDER BY created_at,id"
+      }
     ]
   }
 ]

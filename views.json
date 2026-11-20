@@ -1,13 +1,24 @@
 [
   {
-    "name": "week",
-    "title": "This week",
-    "subtitle": "Presales Evaluations for Claude Code: what needs attention, rendered by npm run view",
+    "name": "presales-week",
+    "title": "Presales weekly review",
+    "subtitle": "Recorded evidence and effort, not a prediction of revenue",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Decisions needed",
+        "sql": "SELECT * FROM attention ORDER BY due_date,code"
+      },
+      {
+        "title": "Technical evaluations",
+        "sql": "SELECT code,account,engineer,status,required_unproven,blockers,effort_minutes FROM scorecards ORDER BY code"
+      },
+      {
+        "title": "Effort in the last seven calendar days",
+        "sql": "SELECT * FROM effort_review ORDER BY engineer,kind"
+      },
+      {
+        "title": "Record checks",
+        "sql": "SELECT * FROM compliance ORDER BY code,rule"
       }
     ]
   }

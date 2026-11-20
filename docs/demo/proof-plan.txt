@@ -1,0 +1,6 @@
+  code      criterion              mandatory  expected                                                status   reviewer     reviewed_on  evidence                                        
+  --------  ---------------------  ---------  ------------------------------------------------------  -------  -----------  -----------  ------------------------------------------------
+  DEMO-101  Incremental refresh    true       Refresh the agreed synthetic dataset within 20 minutes  passed   Alex Morgan  2026-11-18   Synthetic test run DEMO-R1: 12 minutes          
+  DEMO-101  Recovery after outage  true       Resume without duplicate records                        failed   Alex Morgan  2026-11-19   Synthetic test run DEMO-R2: duplicates observed 
+  DEMO-102  Single sign-on         true       Validate the agreed identity test accounts              pending                                                                            
+  DEMO-103  Filtered report        true       Match all ten agreed synthetic totals                   passed   Jamie Chen   2026-11-20   Synthetic comparison DEMO-R3: ten totals matched
